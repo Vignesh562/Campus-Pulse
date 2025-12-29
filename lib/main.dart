@@ -1,5 +1,6 @@
 import 'package:campuspulse/providers/auth/pulse_auth_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'common/widgets/gradient_background.dart';
 import 'screens/splash_screen.dart';
@@ -11,11 +12,11 @@ final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // await dotenv.load(fileName: ".env");
+  await dotenv.load(fileName: ".env");
 
   await Supabase.initialize(
-    url: "https://skeotlyldsabdsgyjfuq.supabase.co",
-    anonKey: "sb_publishable_sarOMS8-7UpR6BMLp_ITLQ_o5bY6_9Z",
+    url: dotenv.env['SUPABASE_URL']!,
+    anonKey: dotenv.env['SUPABASE_ANON_KEY']!,
   );
 
   runApp(CampusPulse());
