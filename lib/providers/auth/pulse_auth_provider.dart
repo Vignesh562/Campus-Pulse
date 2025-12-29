@@ -1,5 +1,6 @@
 import 'package:campuspulse/main.dart';
 import 'package:campuspulse/screens/main_screen.dart';
+import 'package:campuspulse/screens/onboarding/onboarding1screen.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../utils/constants/pulse_colors.dart';
