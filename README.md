@@ -138,8 +138,8 @@ Campus Pulse demonstrates the effective application of mobile technologies in ca
 
 ## Author
 
-**Vignesh Parmar**  
-Flutter Application Developer
+**Vignesh Parmar**,**Pankaj Kumar**
+
 
 ---
 
