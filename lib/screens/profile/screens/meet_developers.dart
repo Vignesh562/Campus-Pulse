@@ -108,9 +108,17 @@ class _MeetDevelopersState extends State<MeetDevelopers> {
                     spacing: 7,
                     children: [
                       FaIcon(FontAwesomeIcons.github, size: 17),
-                      Text(
-                        'pankajzx',
-                        style: PulseText.bodyLight,
+                      GestureDetector(
+                        onTap: ()async{
+                          final webUrl = Uri.parse("https://github.com/pankajzx");
+                          if(await launchUrl(webUrl)){
+                            await launchUrl(webUrl,mode: LaunchMode.externalApplication);
+                          }
+                        },
+                        child: Text(
+                          'pankajzx',
+                          style: PulseText.bodyLight,
+                        ),
                       ),
                     ],
                   ),
