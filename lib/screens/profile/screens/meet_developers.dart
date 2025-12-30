@@ -15,17 +15,13 @@ class MeetDevelopers extends StatefulWidget {
 }
 
 class _MeetDevelopersState extends State<MeetDevelopers> {
-
   final githubLink = Uri.parse('https://github.com/pankajzx');
-  
-  void visitAccounts()async{
 
-    if(!await launchUrl(githubLink)){
+  void visitAccounts() async {
+    if (!await launchUrl(githubLink)) {
       throw Exception('Could not launch $githubLink');
     }
-
   }
-
 
   double top1 = 150;
   double left1 = 70;
@@ -39,7 +35,15 @@ class _MeetDevelopersState extends State<MeetDevelopers> {
       appBar: TopNavigationBar(title: 'Contact Developers'),
       body: Stack(
         children: [
-          Positioned(bottom: 50, left:MediaQuery.of(context).size.width/2.5-10, child: Text('HOLD AND DRAG',textAlign: TextAlign.center,style: PulseText.body.copyWith(color: PulseColors.red))),
+          Positioned(
+            bottom: 50,
+            left: MediaQuery.of(context).size.width / 2.5 - 10,
+            child: Text(
+              'HOLD AND DRAG',
+              textAlign: TextAlign.center,
+              style: PulseText.body.copyWith(color: PulseColors.red),
+            ),
+          ),
           Positioned(
             top: top1,
             left: left1,
@@ -50,7 +54,7 @@ class _MeetDevelopersState extends State<MeetDevelopers> {
                   top1 += details.delta.dy;
                 });
               },
-              child:Column(
+              child: Column(
                 spacing: 5,
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -87,19 +91,26 @@ class _MeetDevelopersState extends State<MeetDevelopers> {
                         color: Colors.pink,
                       ),
                       GestureDetector(
-                        onTap: ()async{
-                          final appUrl = Uri.parse("instagram://user?username=pankuub");
-                          final webUrl = Uri.parse("https://instagram.com/pankuub");
-                          if(await canLaunchUrl(appUrl)){
-                            await launchUrl(appUrl,mode: LaunchMode.externalApplication);
-                          } else{
-                            await launchUrl(webUrl,mode: LaunchMode.externalApplication);
+                        onTap: () async {
+                          final appUrl = Uri.parse(
+                            "instagram://user?username=pankuub",
+                          );
+                          final webUrl = Uri.parse(
+                            "https://instagram.com/pankuub",
+                          );
+                          if (await canLaunchUrl(appUrl)) {
+                            await launchUrl(
+                              appUrl,
+                              mode: LaunchMode.externalApplication,
+                            );
+                          } else {
+                            await launchUrl(
+                              webUrl,
+                              mode: LaunchMode.externalApplication,
+                            );
                           }
                         },
-                        child: Text(
-                          'pankuub',
-                          style: PulseText.bodyLight,
-                        ),
+                        child: Text('pankuub', style: PulseText.bodyLight),
                       ),
                     ],
                   ),
@@ -109,16 +120,17 @@ class _MeetDevelopersState extends State<MeetDevelopers> {
                     children: [
                       FaIcon(FontAwesomeIcons.github, size: 17),
                       GestureDetector(
-                        onTap: ()async{
-                          final webUrl = Uri.parse("https://github.com/pankajzx");
-                          if(await launchUrl(webUrl)){
-                            await launchUrl(webUrl,mode: LaunchMode.externalApplication);
-                          }
+                        onTap: () async {
+                          final webUrl = Uri.parse(
+                            "https://github.com/pankajzx",
+                          );
+
+                          await launchUrl(
+                            webUrl,
+                            mode: LaunchMode.externalApplication,
+                          );
                         },
-                        child: Text(
-                          'pankajzx',
-                          style: PulseText.bodyLight,
-                        ),
+                        child: Text('pankajzx', style: PulseText.bodyLight),
                       ),
                     ],
                   ),
@@ -137,8 +149,7 @@ class _MeetDevelopersState extends State<MeetDevelopers> {
                   top2 += details.delta.dy;
                 });
               },
-              child:
-              Column(
+              child: Column(
                 spacing: 5,
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -173,10 +184,7 @@ class _MeetDevelopersState extends State<MeetDevelopers> {
                         size: 17,
                         color: Colors.pink,
                       ),
-                      Text(
-                        '_yourvignes',
-                        style: PulseText.bodyLight,
-                      ),
+                      Text('_yourvignes', style: PulseText.bodyLight),
                     ],
                   ),
 
@@ -184,10 +192,7 @@ class _MeetDevelopersState extends State<MeetDevelopers> {
                     spacing: 7,
                     children: [
                       FaIcon(FontAwesomeIcons.github, size: 17),
-                      Text(
-                        'vignesh562',
-                        style: PulseText.bodyLight,
-                      ),
+                      Text('vignesh562', style: PulseText.bodyLight),
                     ],
                   ),
                 ],
