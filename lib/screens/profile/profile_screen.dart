@@ -169,7 +169,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     color: PulseColors.red,
                     icon: FaIcon(FontAwesomeIcons.lock),
                     name: 'Privacy Policy',
-                    onTap: () {},
+                    onTap: () {
+
+                    },
                   ),
 
                   SettingsTile(
