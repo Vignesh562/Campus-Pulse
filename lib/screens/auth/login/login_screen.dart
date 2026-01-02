@@ -1,14 +1,12 @@
 import 'package:campuspulse/common/widgets/glass_card.dart';
 import 'package:campuspulse/providers/auth/pulse_auth_provider.dart';
 import 'package:campuspulse/screens/auth/widget/textfield_pulse.dart';
-import 'package:campuspulse/screens/main_screen.dart';
 import 'package:campuspulse/utils/constants/pulse_colors.dart';
 import 'package:campuspulse/utils/constants/pulse_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../utils/utils.dart';
 import '../signup/signup_screen.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 
 class LoginScreen extends StatelessWidget {

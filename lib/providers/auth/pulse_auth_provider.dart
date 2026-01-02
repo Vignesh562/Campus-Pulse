@@ -1,7 +1,7 @@
+import 'package:campuspulse/Admin/Screens/admin_dashboard.dart';
 import 'package:campuspulse/main.dart';
 import 'package:campuspulse/screens/auth/login/login_screen.dart';
 import 'package:campuspulse/screens/main_screen.dart';
-import 'package:campuspulse/screens/onboarding/onboarding1screen.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../utils/constants/pulse_colors.dart';
@@ -15,9 +15,19 @@ class PulseAuthProvider with ChangeNotifier {
     _loading(true);
     try {
       await supabase.auth.signInWithPassword(password: password, email: email);
+
+      final userId = supabase.auth.currentUser!.id;
+
+      final List data = await supabase
+          .from('user_details')
+          .select('role')
+          .eq('id', userId);
+
+      bool isUser = (data.first)['role'] as bool;
+
       Navigator.pushAndRemoveUntil(
         navigatorKey.currentContext!,
-        MaterialPageRoute(builder: (_) => MainScreen()),
+        MaterialPageRoute(builder: (_) => isUser ? MainScreen() : AdminDashboard()),
         (route) => false,
       );
     } on AuthApiException catch (e) {
