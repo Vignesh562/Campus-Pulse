@@ -1,4 +1,5 @@
 import 'package:campuspulse/main.dart';
+import 'package:campuspulse/screens/auth/login/login_screen.dart';
 import 'package:campuspulse/screens/main_screen.dart';
 import 'package:campuspulse/screens/onboarding/onboarding1screen.dart';
 import 'package:flutter/material.dart';
@@ -102,6 +103,7 @@ class PulseAuthProvider with ChangeNotifier {
       _loading(true);
     try {
       await supabase.auth.signOut();
+     Navigator.pushAndRemoveUntil(navigatorKey.currentContext!, MaterialPageRoute(builder: (_)=>LoginScreen()), (route)=>false);
     } catch (e) {
       scaffoldMessengerKey.currentState?.showSnackBar(
         SnackBar(
