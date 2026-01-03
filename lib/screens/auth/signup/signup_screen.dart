@@ -1,16 +1,11 @@
-import 'package:campuspulse/providers/auth/pulse_auth_provider.dart';
-import 'package:campuspulse/screens/main_screen.dart';
-import 'package:campuspulse/screens/auth/widget/textfield_pulse.dart';
 import 'package:campuspulse/utils/constants/pulse_colors.dart';
 import 'package:campuspulse/utils/constants/pulse_text.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../common/widgets/glass_card.dart';
 import '../../../utils/utils.dart';
-
-///  ENUM MUST BE OUTSIDE CLASS
-enum RegisterRole { user, organizer }
+import '../../auth/widget/textfield_pulse.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -20,15 +15,14 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
-  RegisterRole selectedRole = RegisterRole.user;
-
   GlobalKey<FormState> signupFormKey = GlobalKey<FormState>();
+
   TextEditingController fullNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
-
   bool loading = false;
+  bool isUser = true;
 
   final supabase = Supabase.instance.client;
 
@@ -45,13 +39,10 @@ class _SignupScreenState extends State<SignupScreen> {
 
       final user = response.user;
 
-      if (user != null) {
+      if (user != null && response.session != null) {
         await supabase.from('user_details').insert({
           'id': user.id,
           'name': fullNameController.text.trim(),
-          'role': selectedRole == RegisterRole.organizer
-              ? 'organizer'
-              : 'user',
           'phone_number': null,
           'university': null,
           'profile_image': null,
@@ -59,6 +50,7 @@ class _SignupScreenState extends State<SignupScreen> {
           'confirmed_tickets': [],
           'cancelled_tickets': [],
           'favorites': [],
+          'role': isUser,
         });
 
         ScaffoldMessenger.of(context).showSnackBar(
@@ -66,7 +58,7 @@ class _SignupScreenState extends State<SignupScreen> {
             backgroundColor: Colors.transparent,
             duration: const Duration(seconds: 2),
             content: Text(
-              'Registered Successfully',
+              ' Registered Successfully ',
               style: PulseText.title.copyWith(color: PulseColors.green),
               textAlign: TextAlign.center,
             ),
@@ -76,7 +68,7 @@ class _SignupScreenState extends State<SignupScreen> {
         Navigator.pop(context);
       }
     } catch (e) {
-      debugPrint('Signup Error: $e');
+      print(e);
     } finally {
       setState(() => loading = false);
     }
@@ -101,7 +93,6 @@ class _SignupScreenState extends State<SignupScreen> {
                 'Create your account and start exploring everything CampusPulse has to offer.',
                 style: PulseText.body,
               ),
-
               Utils.spacePulse(height: 16),
 
               TextFieldPulse(
@@ -109,8 +100,8 @@ class _SignupScreenState extends State<SignupScreen> {
                 label: 'Full Name',
                 hint: 'Campus Pulse',
                 prefixIcon: const Icon(Icons.person),
-                validator: (value) =>
-                value == null || value.isEmpty ? 'Please enter your name.' : null,
+                validator: (v) =>
+                v == null || v.isEmpty ? 'Please enter your name.' : null,
               ),
 
               Utils.spacePulse(),
@@ -120,9 +111,9 @@ class _SignupScreenState extends State<SignupScreen> {
                 label: 'Email Address',
                 hint: 'campuspulse@gmail.com',
                 prefixIcon: const Icon(Icons.email),
-                validator: (value) {
-                  if (value == null || value.isEmpty) return 'Please enter your email.';
-                  if (!value.contains('@')) return 'Enter a valid email';
+                validator: (v) {
+                  if (v == null || v.isEmpty) return 'Please enter your email.';
+                  if (!v.contains('@')) return 'Enter a valid email';
                   return null;
                 },
               ),
@@ -136,9 +127,11 @@ class _SignupScreenState extends State<SignupScreen> {
                 obscureText: true,
                 prefixIcon: const Icon(Icons.lock),
                 suffixIcon: const Icon(Icons.remove_red_eye_sharp),
-                validator: (value) {
-                  if (value == null || value.isEmpty) return 'Password is required.';
-                  if (value.length < 8) return 'Password must be at least 8 characters';
+                validator: (v) {
+                  if (v == null || v.isEmpty) return 'Password is required.';
+                  if (v.length < 8) {
+                    return 'Password must be at least 8 characters';
+                  }
                   return null;
                 },
               ),
@@ -152,42 +145,83 @@ class _SignupScreenState extends State<SignupScreen> {
                 obscureText: true,
                 prefixIcon: const Icon(Icons.lock_reset),
                 suffixIcon: const Icon(Icons.remove_red_eye_sharp),
-                validator: (value) {
-                  if (value == null || value.isEmpty) return 'Confirm Password is required.';
-                  if (value != passwordController.text) return 'Password does not match.';
+                validator: (v) {
+                  if (v == null || v.isEmpty) {
+                    return 'Confirm Password is required.';
+                  }
+                  if (v != passwordController.text) {
+                    return 'Password does not match.';
+                  }
                   return null;
                 },
               ),
 
-              /// 🔥 ROLE SELECTION
-              Utils.spacePulse(height: 24),
+              Utils.spacePulse(height: 6),
 
-              Text('Register As', style: PulseText.title),
+              Text('Role', style: PulseText.label),
 
-              Utils.spacePulse(height: 8),
+              Utils.spacePulse(height: 6),
 
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: Colors.white.withOpacity(0.05),
-                ),
-                child: Column(
+              GlassCard(
+                child: Row(
+                  spacing: 10,
                   children: [
-                    RadioListTile<RegisterRole>(
-                      title: const Text('User'),
-                      value: RegisterRole.user,
-                      groupValue: selectedRole,
-                      onChanged: (value) {
-                        setState(() => selectedRole = value!);
-                      },
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () => setState(() => isUser = true),
+                        child: GlassCard(
+                          child: Row(
+                            spacing: 10,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              FaIcon(
+                                FontAwesomeIcons.circleCheck,
+                                size: 15,
+                                color: isUser
+                                    ? PulseColors.green
+                                    : PulseColors.primaryLight,
+                              ),
+                              Text(
+                                'User',
+                                style: isUser
+                                    ? PulseText.body
+                                    : PulseText.body.copyWith(
+                                  color: PulseColors.primaryLight,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
-                    RadioListTile<RegisterRole>(
-                      title: const Text('Event Organizer'),
-                      value: RegisterRole.organizer,
-                      groupValue: selectedRole,
-                      onChanged: (value) {
-                        setState(() => selectedRole = value!);
-                      },
+
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () => setState(() => isUser = false),
+                        child: GlassCard(
+                          child: Row(
+                            spacing: 10,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              FaIcon(
+                                FontAwesomeIcons.circleCheck,
+                                size: 15,
+                                color: !isUser
+                                    ? PulseColors.green
+                                    : PulseColors.primaryLight,
+                              ),
+                              Text(
+                                'Organizer',
+                                style: !isUser
+                                    ? PulseText.body
+                                    : PulseText.body.copyWith(
+                                  color: PulseColors.primaryLight,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -195,20 +229,16 @@ class _SignupScreenState extends State<SignupScreen> {
 
               Utils.spacePulse(height: 30),
 
-              Consumer<PulseAuthProvider>(
-                builder: (context, provider, child) {
-                  return GestureDetector(
-                    onTap: signUp,
-                    child: GlassCard(
-                      child: Center(
-                        child: Text(
-                          loading ? 'Registering...' : 'Register',
-                          style: PulseText.btnTxt,
-                        ),
-                      ),
+              GestureDetector(
+                onTap: signUp,
+                child: GlassCard(
+                  child: Center(
+                    child: Text(
+                      loading ? 'Registering...' : 'Register',
+                      style: PulseText.btnTxt,
                     ),
-                  );
-                },
+                  ),
+                ),
               ),
 
               Utils.spacePulse(height: 24),
@@ -223,19 +253,6 @@ class _SignupScreenState extends State<SignupScreen> {
                       'Log In',
                       style: PulseText.title.copyWith(fontSize: 14),
                     ),
-                  ),
-                ],
-              ),
-
-              Utils.spacePulse(),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('I agree to the ', style: PulseText.body.copyWith(fontSize: 12)),
-                  Text(
-                    'Terms of service and Privacy policy',
-                    style: PulseText.title.copyWith(fontSize: 12),
                   ),
                 ],
               ),

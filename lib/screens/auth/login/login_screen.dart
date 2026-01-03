@@ -1,14 +1,13 @@
 import 'package:campuspulse/common/widgets/glass_card.dart';
 import 'package:campuspulse/providers/auth/pulse_auth_provider.dart';
 import 'package:campuspulse/screens/auth/widget/textfield_pulse.dart';
-import 'package:campuspulse/screens/main_screen.dart';
 import 'package:campuspulse/utils/constants/pulse_colors.dart';
 import 'package:campuspulse/utils/constants/pulse_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../utils/utils.dart';
+import '../forget_password/forget_password_screen.dart';
 import '../signup/signup_screen.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 
 class LoginScreen extends StatelessWidget {
@@ -78,12 +77,12 @@ class LoginScreen extends StatelessWidget {
                     alignment: Alignment.centerRight,
                     child: TextButton(
                       onPressed: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (_) => const ForgetPasswordScreen(),
-                        //   ),
-                        // );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const ForgetPasswordScreen(),
+                          ),
+                        );
                       },
                       child: Text('Forget Password?', style: PulseText.body),
                     ),
