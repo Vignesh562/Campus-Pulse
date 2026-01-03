@@ -1,4 +1,6 @@
+import 'package:campuspulse/providers/auth/pulse_auth_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'new_event_screen.dart';
 
@@ -62,13 +64,22 @@ class AdminDashboard extends StatelessWidget {
                     ],
                   ),
                   const Spacer(),
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white10,
-                    ),
-                    child: const Icon(Icons.notifications, color: Colors.white),
+                  Consumer<PulseAuthProvider>(
+                    builder: (context,provider,child) {
+                      return GestureDetector(
+                        onTap: (){
+                          provider.logOut();
+                        } ,
+                        child: Container(
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.white10,
+                          ),
+                          child: const Icon(Icons.notifications, color: Colors.white),
+                        ),
+                      );
+                    }
                   )
                 ],
               ),

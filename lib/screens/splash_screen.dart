@@ -1,3 +1,4 @@
+import 'package:campuspulse/Admin/Screens/admin_dashboard.dart';
 import 'package:campuspulse/common/widgets/shadow_container.dart';
 import 'package:campuspulse/screens/auth/login/login_screen.dart';
 import 'package:campuspulse/screens/main_screen.dart';
@@ -15,14 +16,49 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
   final supabase = Supabase.instance.client;
 
-  Future<void> nextScreen()async{
-    if(supabase.auth.currentUser != null){
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>MainScreen()));
-    } else {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>Onboarding1Screen()));
+  Future<void> nextScreen() async {
+    try {
+      final user = supabase.auth.currentUser;
+      if (user == null) {
+        if (!mounted) return;
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => Onboarding1Screen()),
+        );
+        return;
+      }
+
+      final userId = user.id;
+
+      final data = await supabase
+          .from('user_details')
+          .select('role')
+          .eq('user_id', userId)
+          .single();
+
+      bool isUser = true;
+
+      if (data['role'] != null) {
+        isUser = data['role'] as bool;
+      }
+
+      if (!mounted) return;
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) => isUser ? MainScreen() : AdminDashboard(),
+        ),
+      );
+    } catch (e) {
+      print('Splash navigation error: $e');
+
+     if (!mounted) return;
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => Onboarding1Screen()),
+      );
     }
   }
 
@@ -44,14 +80,8 @@ class _SplashScreenState extends State<SplashScreen> {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                'Campus',
-                style: PulseText.heading,
-              ),
-              Text(
-                'Pulse',
-                style: PulseText.heading.copyWith(fontSize: 30),
-              ),
+              Text('Campus', style: PulseText.heading),
+              Text('Pulse', style: PulseText.heading.copyWith(fontSize: 30)),
             ],
           ),
         ),
