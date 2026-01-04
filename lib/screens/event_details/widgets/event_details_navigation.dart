@@ -1,5 +1,3 @@
-import 'package:campuspulse/common/widgets/shadow_container.dart';
-import 'package:campuspulse/screens/event_details/widgets/qr_code_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../common/widgets/circular_container.dart';
@@ -49,9 +47,6 @@ class _EventDetailsNavigationState extends State<EventDetailsNavigation> {
               ),
             ),
             GestureDetector(
-              // onTap: (){
-              //   Navigator.push(context, MaterialPageRoute(builder: (_)=>QrCodeScreen()));
-              // },
               child: CircularContainer(
                 color: PulseColors.primary,
                 icon: FaIcon(FontAwesomeIcons.arrowUpFromBracket),

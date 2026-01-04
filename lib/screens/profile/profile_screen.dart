@@ -1,4 +1,4 @@
-import 'package:campuspulse/Admin/Screens/admin_dashboard.dart';
+import 'package:campuspulse/admin/screens/dashboard/admin_dashboard_screen.dart';
 import 'package:campuspulse/common/widgets/circular_container.dart';
 import 'package:campuspulse/common/widgets/glass_card.dart';
 import 'package:campuspulse/common/widgets/pulse_button.dart';
@@ -170,13 +170,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     color: PulseColors.red,
                     icon: FaIcon(FontAwesomeIcons.lock),
                     name: 'Privacy Policy',
-                    //This is for testing purpose
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => AdminDashboard()),
-                      );
-                    },
+                    onTap: (){},
                   ),
 
                   SettingsTile(
