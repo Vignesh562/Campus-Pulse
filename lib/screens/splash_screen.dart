@@ -4,6 +4,7 @@ import 'package:campuspulse/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../admin/screens/admin.dart';
 import '../utils/constants/pulse_text.dart';
 import 'onboarding/onboarding1screen.dart';
 
@@ -33,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
         Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (_) => isUser ? MainScreen() : AdminDashboardScreen()),
+          MaterialPageRoute(builder: (_) => isUser ? MainScreen() : Admin()),
               (route) => false,
         );
       } else {
