@@ -7,6 +7,7 @@ import 'package:campuspulse/screens/auth/login/login_screen.dart';
 import 'package:campuspulse/screens/profile/screens/change_password_screen.dart';
 import 'package:campuspulse/screens/profile/screens/edit_profile_screen.dart';
 import 'package:campuspulse/screens/profile/screens/meet_developers.dart';
+import 'package:campuspulse/screens/profile/screens/privacy_policy_screen.dart';
 import 'package:campuspulse/screens/profile/widgets/profile_card.dart';
 import 'package:campuspulse/screens/profile/widgets/settings_tile.dart';
 import 'package:campuspulse/utils/constants/pulse_colors.dart';
@@ -168,7 +169,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     icon: FaIcon(FontAwesomeIcons.lock),
                     name: 'Privacy Policy',
                     onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (_)=>Admin()));
+                      Navigator.push(context, MaterialPageRoute(builder: (_)=>PrivacyPolicyScreen()));
                     },
                   ),
 
