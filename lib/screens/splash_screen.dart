@@ -1,10 +1,10 @@
-import 'package:campuspulse/Admin/Screens/admin_dashboard.dart';
+import 'package:campuspulse/admin/screens/dashboard/admin_dashboard_screen.dart';
 import 'package:campuspulse/common/widgets/shadow_container.dart';
-import 'package:campuspulse/screens/auth/login/login_screen.dart';
 import 'package:campuspulse/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../admin/screens/admin.dart';
 import '../utils/constants/pulse_text.dart';
 import 'onboarding/onboarding1screen.dart';
 
@@ -20,45 +20,29 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> nextScreen() async {
     try {
-      final user = supabase.auth.currentUser;
-      if (user == null) {
+      if (supabase.auth.currentUser != null && supabase.auth.currentSession != null) {
         if (!mounted) return;
-        Navigator.pushReplacement(
+
+        final userId = supabase.auth.currentUser!.id;
+
+        final List data = await supabase
+            .from('user_details')
+            .select('role_user')
+            .eq('id', userId);
+
+        bool isUser = (data.first)['role_user'] as bool;
+
+        Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (_) => Onboarding1Screen()),
+          MaterialPageRoute(builder: (_) => isUser ? MainScreen() : Admin()),
+              (route) => false,
         );
-        return;
+      } else {
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Onboarding1Screen()));
       }
 
-      final userId = user.id;
-
-      final data = await supabase
-          .from('user_details')
-          .select('role')
-          .eq('user_id', userId)
-          .single();
-
-      bool isUser = true;
-
-      if (data['role'] != null) {
-        isUser = data['role'] as bool;
-      }
-
-      if (!mounted) return;
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (_) => isUser ? MainScreen() : AdminDashboard(),
-        ),
-      );
     } catch (e) {
       print('Splash navigation error: $e');
-
-     if (!mounted) return;
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => Onboarding1Screen()),
-      );
     }
   }
 

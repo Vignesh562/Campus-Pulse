@@ -50,7 +50,7 @@ class _SignupScreenState extends State<SignupScreen> {
           'confirmed_tickets': [],
           'cancelled_tickets': [],
           'favorites': [],
-          'role': isUser,
+          'role_user': isUser,
         });
 
         ScaffoldMessenger.of(context).showSnackBar(

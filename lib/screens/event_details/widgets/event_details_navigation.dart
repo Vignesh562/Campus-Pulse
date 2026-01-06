@@ -1,5 +1,3 @@
-import 'package:campuspulse/common/widgets/shadow_container.dart';
-import 'package:campuspulse/screens/event_details/widgets/qr_code_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../common/widgets/circular_container.dart';
@@ -7,7 +5,9 @@ import '../../../utils/constants/pulse_colors.dart';
 import '../../../utils/utils.dart';
 
 class EventDetailsNavigation extends StatefulWidget {
-  const EventDetailsNavigation({super.key});
+  bool hideFavorite;
+
+  EventDetailsNavigation({super.key, this.hideFavorite = false});
 
   @override
   State<EventDetailsNavigation> createState() => _EventDetailsNavigationState();
@@ -34,24 +34,23 @@ class _EventDetailsNavigationState extends State<EventDetailsNavigation> {
               ),
             ),
             Spacer(),
+            widget.hideFavorite
+                ? SizedBox()
+                : GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        isFavorite = !isFavorite;
+                        print(isFavorite);
+                      });
+                    },
+                    child: CircularContainer(
+                      color: isFavorite ? PulseColors.red : PulseColors.primary,
+                      icon: isFavorite
+                          ? FaIcon(FontAwesomeIcons.solidHeart)
+                          : FaIcon(FontAwesomeIcons.heart),
+                    ),
+                  ),
             GestureDetector(
-              onTap: () {
-                setState(() {
-                  isFavorite = !isFavorite;
-                  print(isFavorite);
-                });
-              },
-              child: CircularContainer(
-                color: isFavorite ? PulseColors.red : PulseColors.primary,
-                icon: isFavorite
-                    ? FaIcon(FontAwesomeIcons.solidHeart)
-                    : FaIcon(FontAwesomeIcons.heart),
-              ),
-            ),
-            GestureDetector(
-              // onTap: (){
-              //   Navigator.push(context, MaterialPageRoute(builder: (_)=>QrCodeScreen()));
-              // },
               child: CircularContainer(
                 color: PulseColors.primary,
                 icon: FaIcon(FontAwesomeIcons.arrowUpFromBracket),

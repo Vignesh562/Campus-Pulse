@@ -1,18 +1,16 @@
-import 'package:campuspulse/Admin/Screens/admin_dashboard.dart';
-import 'package:campuspulse/common/widgets/circular_container.dart';
+import 'package:campuspulse/admin/screens/admin.dart';
 import 'package:campuspulse/common/widgets/glass_card.dart';
 import 'package:campuspulse/common/widgets/pulse_button.dart';
 import 'package:campuspulse/common/widgets/top_navigation_bar.dart';
 import 'package:campuspulse/providers/auth/pulse_auth_provider.dart';
 import 'package:campuspulse/screens/auth/login/login_screen.dart';
-import 'package:campuspulse/screens/my_ticket/my_ticket_screen.dart';
 import 'package:campuspulse/screens/profile/screens/change_password_screen.dart';
 import 'package:campuspulse/screens/profile/screens/edit_profile_screen.dart';
 import 'package:campuspulse/screens/profile/screens/meet_developers.dart';
+import 'package:campuspulse/screens/profile/screens/privacy_policy_screen.dart';
 import 'package:campuspulse/screens/profile/widgets/profile_card.dart';
 import 'package:campuspulse/screens/profile/widgets/settings_tile.dart';
 import 'package:campuspulse/utils/constants/pulse_colors.dart';
-import 'package:campuspulse/utils/constants/pulse_text.dart';
 import 'package:campuspulse/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -170,12 +168,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     color: PulseColors.red,
                     icon: FaIcon(FontAwesomeIcons.lock),
                     name: 'Privacy Policy',
-                    //This is for testing purpose
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => AdminDashboard()),
-                      );
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (_)=>PrivacyPolicyScreen()));
                     },
                   ),
 
