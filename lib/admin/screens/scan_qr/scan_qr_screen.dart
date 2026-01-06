@@ -10,6 +10,46 @@ class ScanQrScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: PulseAppBar(title: 'Scan QR'),
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          spacing: 40,
+          children: [
+            GlassCard(
+              child: Container(
+                height: 250,
+                width: 250,
+                child: Center(
+                  child: Text(
+                    'Place QR code here.',
+                    style: PulseText.bodyLight,
+                  ),
+                ),
+              ),
+            ),
+
+            GlassCard(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                child: Row(
+                  spacing: 10,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    FaIcon(
+                      FontAwesomeIcons.qrcode,
+                      color: PulseColors.orange,
+                      size: 16,
+                    ),
+                    Text('Click to Scan QR', style: PulseText.label),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

@@ -5,7 +5,9 @@ import '../../../utils/constants/pulse_colors.dart';
 import '../../../utils/utils.dart';
 
 class EventDetailsNavigation extends StatefulWidget {
-  const EventDetailsNavigation({super.key});
+  bool hideFavorite;
+
+  EventDetailsNavigation({super.key, this.hideFavorite = false});
 
   @override
   State<EventDetailsNavigation> createState() => _EventDetailsNavigationState();
@@ -32,20 +34,22 @@ class _EventDetailsNavigationState extends State<EventDetailsNavigation> {
               ),
             ),
             Spacer(),
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  isFavorite = !isFavorite;
-                  print(isFavorite);
-                });
-              },
-              child: CircularContainer(
-                color: isFavorite ? PulseColors.red : PulseColors.primary,
-                icon: isFavorite
-                    ? FaIcon(FontAwesomeIcons.solidHeart)
-                    : FaIcon(FontAwesomeIcons.heart),
-              ),
-            ),
+            widget.hideFavorite
+                ? SizedBox()
+                : GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        isFavorite = !isFavorite;
+                        print(isFavorite);
+                      });
+                    },
+                    child: CircularContainer(
+                      color: isFavorite ? PulseColors.red : PulseColors.primary,
+                      icon: isFavorite
+                          ? FaIcon(FontAwesomeIcons.solidHeart)
+                          : FaIcon(FontAwesomeIcons.heart),
+                    ),
+                  ),
             GestureDetector(
               child: CircularContainer(
                 color: PulseColors.primary,

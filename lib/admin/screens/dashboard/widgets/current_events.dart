@@ -1,24 +1,24 @@
-import 'package:campuspulse/common/widgets/iocn_text.dart';
-import 'package:campuspulse/utils/utils.dart';
+import 'package:campuspulse/common/widgets/circular_container.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
-import '../../../common/widgets/glass_card.dart';
-import '../../../common/widgets/pulse_tag.dart';
-import '../../../utils/constants/pulse_colors.dart';
-import '../../../utils/constants/pulse_text.dart';
 
-class UpcomingEventCard extends StatelessWidget {
+import '../../../../common/widgets/glass_card.dart';
+import '../../../../common/widgets/iocn_text.dart';
+import '../../../../common/widgets/pulse_tag.dart';
+import '../../../../utils/constants/pulse_colors.dart';
+import '../../../../utils/constants/pulse_text.dart';
+
+class CurrentEvents extends StatelessWidget {
   final DateTime date;
-  final String title, location, category;
+  final String title, location;
   final Color color;
 
-  UpcomingEventCard({
+  CurrentEvents({
     super.key,
     required this.title,
     required this.location,
     required this.color,
-    required this.category,
     required this.date,
   });
 
@@ -41,7 +41,7 @@ class UpcomingEventCard extends StatelessWidget {
                   style: PulseText.label.copyWith(fontSize: 10),
                 ),
 
-                Text(  DateFormat('d').format(date), style: PulseText.label),
+                Text(DateFormat('d').format(date), style: PulseText.label),
               ],
             ),
           ),
@@ -74,8 +74,9 @@ class UpcomingEventCard extends StatelessWidget {
             ),
           ),
 
-          // Spacer(),
-          PulseTag(color: color, text: category),
+          CircularContainer(color: PulseColors.red,icon: FaIcon(FontAwesomeIcons.trash)),
+
+
         ],
       ),
     );
